@@ -163,6 +163,7 @@ public class Login extends javax.swing.JFrame {
                         + "' and PASSWORD = '" + pw + "'");
                 
                 ResultSet rs = pst.executeQuery();
+                /* rs.next() sirve para ver si la consulta encontro coincidencias con los datos */
                 if (rs.next()) {
                     setVisible(false);
                     Supervisor supervisor = new Supervisor();
