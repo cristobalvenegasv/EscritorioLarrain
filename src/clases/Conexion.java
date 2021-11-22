@@ -12,7 +12,7 @@ public class Conexion {
     
     public static Connection conectar() {
         try {
-            Connection cn = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:orcl", "cristobalv", "hola12345");
+            Connection cn = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:orcl", "crisvv", "hola123");
             return cn;
         } catch (Exception e) {
             System.out.println("Error en conexión local" + e);

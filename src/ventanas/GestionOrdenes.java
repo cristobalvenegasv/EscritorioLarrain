@@ -4,14 +4,25 @@
  */
 package ventanas;
 
+import java.sql.*;
+import clases.Conexion;
+import com.itextpdf.text.BaseColor;
+import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfWriter;
+import com.itextpdf.text.Chunk;
+import com.itextpdf.text.Font;
+import com.itextpdf.text.FontFactory;
+import com.itextpdf.text.Paragraph;
 import java.awt.Image;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
-import java.sql.*;
-import clases.Conexion;
 import java.awt.Toolkit;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.WindowConstants;
@@ -36,7 +47,8 @@ public class GestionOrdenes extends javax.swing.JFrame {
      * Creates new form OrdenesRegistradas
      */
     public GestionOrdenes() {
-        initComponents();
+        initComponents();        
+        
         user = Login.user;
         
         setSize(700, 500);
@@ -57,7 +69,7 @@ public class GestionOrdenes extends javax.swing.JFrame {
         try {
             Connection cn = Conexion.conectar();
             PreparedStatement pst = cn.prepareStatement(
-            "select ID, STATUS, CREATEDAT, SHIPPINGPRICE from PUNTOVENTAS_ORDERS");
+            "select ID, STATUS, to_char(paidat, 'dd/mm/yyyy'), SHIPPINGPRICE, TRANSACTION_ID from PUNTOVENTAS_ORDERS");
             
             ResultSet rs = pst.executeQuery();
             /* Se utiliza el jtable de ordenes */
@@ -66,19 +78,19 @@ public class GestionOrdenes extends javax.swing.JFrame {
             jScrollPane1.setViewportView(jTable_ordenes);
             
             /* Añado las columnas que voy a utilizar. La primera es el ID */
-            model.addColumn(" ");
-            model.addColumn("ESTADO");
+            model.addColumn("Id");
+            model.addColumn("Estado");
             model.addColumn("Fecha de orden");
-            model.addColumn("Precio");
-            
+            model.addColumn("Precio pagado");
+            model.addColumn("Número de transacción");
             
             while(rs.next()) {
                 /* Vector de tipo Object por el tipo de dato que tiene el JTable */ 
                 /* Ademas agregamos 4 por las 4 columnas que hay en nuestra tabla*/
-                Object[] fila = new Object[4];
+                Object[] fila = new Object[5];
                 
                 /* Mientras i sea menor a 4(cantidad de columnas) este se irá incrementando */
-                for (int i = 0; i < 4; i++) {
+                for (int i = 0; i < 5; i++) {
                     /* Aquí obtenemos los objetos i + 1 puesto que aquí recorrera a partir de 0 y subando 1 hasta la cantidad de columnas*/
                     fila[i] = rs.getObject(i + 1);
                 }
@@ -109,6 +121,10 @@ public class GestionOrdenes extends javax.swing.JFrame {
         jLabel_Titulo = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable_ordenes = new javax.swing.JTable();
+        jButton_Imprimir = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
+        jButton_Barras = new javax.swing.JButton();
+        jButton_Circular = new javax.swing.JButton();
         jLabel_Fondo = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -117,27 +133,110 @@ public class GestionOrdenes extends javax.swing.JFrame {
 
         jLabel_Titulo.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
         jLabel_Titulo.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel_Titulo.setText("Órdenes realizadas");
+        jLabel_Titulo.setText("Ordenes realizadas");
         getContentPane().add(jLabel_Titulo, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 10, -1, -1));
 
+        jTable_ordenes.setBackground(new java.awt.Color(204, 204, 204));
         jTable_ordenes.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "Title 1", "Title 2", "Title 3", "Title 4", "Title 5"
             }
         ));
         jScrollPane1.setViewportView(jTable_ordenes);
 
-        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 70, -1, 180));
+        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(72, 70, 550, 180));
+
+        jButton_Imprimir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/print.png"))); // NOI18N
+        jButton_Imprimir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton_ImprimirActionPerformed(evt);
+            }
+        });
+        getContentPane().add(jButton_Imprimir, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 290, 140, 140));
+
+        jLabel1.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel1.setText("Imprimir Ordenes");
+        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(75, 430, -1, -1));
+
+        jButton_Barras.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/barchart.png"))); // NOI18N
+        getContentPane().add(jButton_Barras, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 290, 140, 140));
+
+        jButton_Circular.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/piechart.png"))); // NOI18N
+        getContentPane().add(jButton_Circular, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 290, 140, 140));
         getContentPane().add(jLabel_Fondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 700, 500));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jButton_ImprimirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_ImprimirActionPerformed
+        // TODO add your handling code here:
+        
+        /* Se crea un objeto de la clase document obtenido desde nuestra libreria */
+        Document documento = new Document();
+        
+        /* Aquí genero la estructura de nuestro pdf */
+        try {
+            /* Damos la ubicación a la ruta donde enviaremos el pdf */
+            String ruta = System.getProperty("user.home");
+            PdfWriter.getInstance(documento, new FileOutputStream(ruta + "/Desktop/" + "Reporte-Ordenes" + ".pdf"));
+            
+            /* Acá se obtiene la imagen para darle el encabezado al formato del pdf */
+            com.itextpdf.text.Image encabezado = com.itextpdf.text.Image.getInstance("src/imagenes/logo_wykep.png");
+            
+            /* Dimensiones para el encabezado, osea, la imagen */
+            encabezado.scaleToFit(500,500);
+            encabezado.setAlignment(Chunk.ALIGN_CENTER);
+            
+            Paragraph parrafo = new Paragraph();
+            parrafo.setAlignment(Paragraph.ALIGN_CENTER);
+            parrafo.add("Ordenes realizadas. \n \n");
+            parrafo.setFont(FontFactory.getFont("Arial", 14, Font.NORMAL, BaseColor.LIGHT_GRAY));
+                        
+            documento.open();
+            documento.add(encabezado);
+            documento.add(parrafo);
+            
+            PdfPTable ordenes = new PdfPTable(3);
+            ordenes.addCell("Número de transacción");
+            ordenes.addCell("Estado");
+            ordenes.addCell("Fecha de pago");
+            
+            
+            try {
+                Connection cn = Conexion.conectar();
+                PreparedStatement pst = cn.prepareStatement(
+                "select TRANSACTION_ID, STATUS, to_char(PAIDAT, 'dd/mm/yyyy') from PUNTOVENTAS_ORDERS");
+                
+                ResultSet rs = pst.executeQuery();
+                
+                if (rs.next()) {
+                    do {                        
+                        ordenes.addCell(rs.getString(1));
+                        ordenes.addCell(rs.getString(2));
+                        ordenes.addCell(rs.getString(3));
+                       
+                    } while (rs.next());
+                    
+                    documento.add(ordenes);
+                    JOptionPane.showMessageDialog(null, "Reporte emitido");
+                }
+            } catch (Exception e) {
+                System.err.println("Error en obtener datos de ordenes. " + e);
+            }
+            
+            documento.close();
+        } catch (DocumentException | IOException e) {
+            System.err.println("Error en PDF o ruta del mismo " + e);
+            JOptionPane.showMessageDialog(null, "Error al generar el PDF");
+        }
+    }//GEN-LAST:event_jButton_ImprimirActionPerformed
 
     /**
      * @param args the command line arguments
@@ -176,6 +275,10 @@ public class GestionOrdenes extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButton_Barras;
+    private javax.swing.JButton jButton_Circular;
+    private javax.swing.JButton jButton_Imprimir;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel_Fondo;
     private javax.swing.JLabel jLabel_Titulo;
     private javax.swing.JScrollPane jScrollPane1;
