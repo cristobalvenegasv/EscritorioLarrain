@@ -69,7 +69,7 @@ public class GestionOrdenes extends javax.swing.JFrame {
         try {
             Connection cn = Conexion.conectar();
             PreparedStatement pst = cn.prepareStatement(
-            "select ID, STATUS, to_char(paidat, 'dd/mm/yyyy'), SHIPPINGPRICE, TRANSACTION_ID from PUNTOVENTAS_ORDERS");
+            "select ID, STATUS, to_char(paidat, 'dd/mm/yyyy'), TOTALPRICE, TRANSACTION_ID from PUNTOVENTAS_ORDERS");
             
             ResultSet rs = pst.executeQuery();
             /* Se utiliza el jtable de ordenes */
@@ -125,6 +125,8 @@ public class GestionOrdenes extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jButton_Barras = new javax.swing.JButton();
         jButton_Circular = new javax.swing.JButton();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
         jLabel_Fondo = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -166,10 +168,25 @@ public class GestionOrdenes extends javax.swing.JFrame {
         getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(75, 430, -1, -1));
 
         jButton_Barras.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/barchart.png"))); // NOI18N
+        jButton_Barras.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton_BarrasActionPerformed(evt);
+            }
+        });
         getContentPane().add(jButton_Barras, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 290, 140, 140));
 
         jButton_Circular.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/piechart.png"))); // NOI18N
         getContentPane().add(jButton_Circular, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 290, 140, 140));
+
+        jLabel2.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel2.setText("Gráficos de estado");
+        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 430, -1, -1));
+
+        jLabel3.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel3.setText("Gráfico de precio");
+        getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 430, -1, -1));
         getContentPane().add(jLabel_Fondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 700, 500));
 
         pack();
@@ -203,16 +220,17 @@ public class GestionOrdenes extends javax.swing.JFrame {
             documento.add(encabezado);
             documento.add(parrafo);
             
-            PdfPTable ordenes = new PdfPTable(3);
+            PdfPTable ordenes = new PdfPTable(4);
             ordenes.addCell("Número de transacción");
             ordenes.addCell("Estado");
+            ordenes.addCell("Precio Pagado");
             ordenes.addCell("Fecha de pago");
             
             
             try {
                 Connection cn = Conexion.conectar();
                 PreparedStatement pst = cn.prepareStatement(
-                "select TRANSACTION_ID, STATUS, to_char(PAIDAT, 'dd/mm/yyyy') from PUNTOVENTAS_ORDERS");
+                "select TRANSACTION_ID, STATUS, TOTALPRICE, to_char(PAIDAT, 'dd/mm/yyyy') from PUNTOVENTAS_ORDERS");
                 
                 ResultSet rs = pst.executeQuery();
                 
@@ -221,11 +239,12 @@ public class GestionOrdenes extends javax.swing.JFrame {
                         ordenes.addCell(rs.getString(1));
                         ordenes.addCell(rs.getString(2));
                         ordenes.addCell(rs.getString(3));
+                        ordenes.addCell(rs.getString(4));
                        
                     } while (rs.next());
                     
                     documento.add(ordenes);
-                    JOptionPane.showMessageDialog(null, "Reporte emitido");
+                    JOptionPane.showMessageDialog(null, "Detalle de ventas emitido");
                 }
             } catch (Exception e) {
                 System.err.println("Error en obtener datos de ordenes. " + e);
@@ -237,6 +256,11 @@ public class GestionOrdenes extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Error al generar el PDF");
         }
     }//GEN-LAST:event_jButton_ImprimirActionPerformed
+
+    private void jButton_BarrasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_BarrasActionPerformed
+        GraficoEstado graficoBarras = new GraficoEstado();
+        graficoBarras.setVisible(true);
+    }//GEN-LAST:event_jButton_BarrasActionPerformed
 
     /**
      * @param args the command line arguments
@@ -279,6 +303,8 @@ public class GestionOrdenes extends javax.swing.JFrame {
     private javax.swing.JButton jButton_Circular;
     private javax.swing.JButton jButton_Imprimir;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel_Fondo;
     private javax.swing.JLabel jLabel_Titulo;
     private javax.swing.JScrollPane jScrollPane1;

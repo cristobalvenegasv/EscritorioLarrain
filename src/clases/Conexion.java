@@ -12,7 +12,7 @@ public class Conexion {
     
     public static Connection conectar() {
         try {
-            Connection cn = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:orcl", "crisvv", "hola123");
+            Connection cn = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:orcl", "cristobalvenegas", "hola123");
             return cn;
         } catch (Exception e) {
             System.out.println("Error en conexión local" + e);
@@ -24,8 +24,8 @@ public class Conexion {
     /*
     private final String DRIVER = "oracle.jdbc.driver.OracleDriver";
     private final String URL = "jdbc:oracle:thin:@//localhost:1521/orcl";
-    private final String USER = "tobal";
-    private final String PASWORD = "hola123456";
+    private final String USER = "cristobalvenegas";
+    private final String PASWORD = "hola123";
 
     public Connection cadena;
 

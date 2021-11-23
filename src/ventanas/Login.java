@@ -159,17 +159,25 @@ public class Login extends javax.swing.JFrame {
             try {
                 Connection cn = Conexion.conectar();
                 PreparedStatement pst = cn.prepareStatement(
-                    "select * from PUNTOVENTAS_USER where USERNAME ='" + user
-                        + "' and PASSWORD = '" + pw + "'");
+                    "select ag.NAME, u.* from AUTH_GROUP ag inner join PUNTOVENTAS_USER u on(ag.id = u.id) "
+                            + "where USERNAME ='" + user + "' and PASSWORD = '" + pw + "'");
                 
                 ResultSet rs = pst.executeQuery();
                 /* rs.next() sirve para ver si la consulta encontro coincidencias con los datos */
                 if (rs.next()) {
-                    setVisible(false);
-                    Supervisor supervisor = new Supervisor();
-                    supervisor.setVisible(true);
+                    /*  SUPERVISOR LOCAL */
+                    
+                    String NAME = rs.getString("NAME");
+                    
+                    if (NAME.equalsIgnoreCase("Supervisor Local")) {
+                        dispose();
+                        new Supervisor().setVisible(true);
+                    } else if (NAME.equalsIgnoreCase("Administrador")) {
+                        dispose();
+                        new Supervisor().setVisible(true);
+                    }
                 } else {
-                    JOptionPane.showMessageDialog(null, "Datos ingresados incorrectos");
+                    JOptionPane.showMessageDialog(null, "*Datos incorrectos* Se debe ser Supervidor de Local o Administrador para ingresar");
                     txt_user.setText("");
                     txt_password.setText("");
                 }
