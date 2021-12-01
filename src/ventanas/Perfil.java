@@ -29,7 +29,7 @@ public class Perfil extends javax.swing.JFrame {
         initComponents();
         user = Login.user;
         
-        setSize(550, 450);
+        setSize(450, 400);
         setTitle("Pérfil de Supervisor");
         setResizable(false);
         setLocationRelativeTo(null);
@@ -92,7 +92,6 @@ public class Perfil extends javax.swing.JFrame {
         txt_Nombre = new javax.swing.JTextField();
         txt_Apellido = new javax.swing.JTextField();
         txt_Correo = new javax.swing.JTextField();
-        jButton_Editar = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         jLabel_Fondo = new javax.swing.JLabel();
 
@@ -114,36 +113,52 @@ public class Perfil extends javax.swing.JFrame {
         jLabel_Correo.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         jLabel_Correo.setText("Correo eléctronico");
         getContentPane().add(jLabel_Correo, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 270, -1, -1));
-        getContentPane().add(txt_NombreUsuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 90, 220, -1));
-        getContentPane().add(txt_Nombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 160, 220, -1));
-        getContentPane().add(txt_Apellido, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 230, 220, -1));
-        getContentPane().add(txt_Correo, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 300, 220, -1));
 
-        jButton_Editar.setText("Editar Información");
-        jButton_Editar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton_EditarActionPerformed(evt);
+        txt_NombreUsuario.setEnabled(false);
+        getContentPane().add(txt_NombreUsuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 90, 220, -1));
+
+        txt_Nombre.setEnabled(false);
+        txt_Nombre.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txt_NombreKeyTyped(evt);
             }
         });
-        getContentPane().add(jButton_Editar, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 90, -1, -1));
+        getContentPane().add(txt_Nombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 160, 220, -1));
+
+        txt_Apellido.setEnabled(false);
+        txt_Apellido.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txt_ApellidoKeyTyped(evt);
+            }
+        });
+        getContentPane().add(txt_Apellido, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 230, 220, -1));
+
+        txt_Correo.setEnabled(false);
+        getContentPane().add(txt_Correo, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 300, 220, -1));
 
         jLabel1.setFont(new java.awt.Font("Arial", 1, 24)); // NOI18N
         jLabel1.setText("Perfil de Supervisor");
         getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, -1, -1));
-        getContentPane().add(jLabel_Fondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 460, 410));
+        getContentPane().add(jLabel_Fondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 450, 400));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton_EditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_EditarActionPerformed
+    private void txt_NombreKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_NombreKeyTyped
+
+        char c = evt.getKeyChar();
         
-        try {
-            Connection cn = Conexion.conectar();
-            PreparedStatement pst = cn.prepareStatement("Update");
-        } catch (Exception e) {
-        }
+        if((c<'a' || c>'z') && (c<'A' || c>'Z')) evt.consume();
         
-    }//GEN-LAST:event_jButton_EditarActionPerformed
+        
+    }//GEN-LAST:event_txt_NombreKeyTyped
+
+    private void txt_ApellidoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_ApellidoKeyTyped
+        
+        char c = evt.getKeyChar();
+        
+        if((c<'a' || c>'z') && (c<'A' || c>'Z')) evt.consume();
+    }//GEN-LAST:event_txt_ApellidoKeyTyped
 
     /**
      * @param args the command line arguments
@@ -181,7 +196,6 @@ public class Perfil extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton_Editar;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel_Apellido;
     private javax.swing.JLabel jLabel_Correo;
