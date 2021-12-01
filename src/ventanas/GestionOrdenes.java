@@ -175,13 +175,18 @@ public class GestionOrdenes extends javax.swing.JFrame {
         });
         getContentPane().add(jButton_Barras, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 290, 140, 140));
 
-        jButton_Circular.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/piechart.png"))); // NOI18N
+        jButton_Circular.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/LinearChart.png"))); // NOI18N
+        jButton_Circular.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton_CircularActionPerformed(evt);
+            }
+        });
         getContentPane().add(jButton_Circular, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 290, 140, 140));
 
         jLabel2.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel2.setText("Gráficos de estado");
-        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 430, -1, -1));
+        jLabel2.setText("Gráficos de órdenes");
+        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(285, 430, -1, -1));
 
         jLabel3.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));
@@ -258,9 +263,14 @@ public class GestionOrdenes extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton_ImprimirActionPerformed
 
     private void jButton_BarrasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_BarrasActionPerformed
-        GraficoEstado graficoBarras = new GraficoEstado();
+        GraficoBarras graficoBarras = new GraficoBarras();
         graficoBarras.setVisible(true);
     }//GEN-LAST:event_jButton_BarrasActionPerformed
+
+    private void jButton_CircularActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_CircularActionPerformed
+        GraficoLineal graficoLineal = new GraficoLineal();
+        graficoLineal.setVisible(true);
+    }//GEN-LAST:event_jButton_CircularActionPerformed
 
     /**
      * @param args the command line arguments

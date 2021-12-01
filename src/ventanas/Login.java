@@ -172,12 +172,13 @@ public class Login extends javax.swing.JFrame {
                     if (NAME.equalsIgnoreCase("Supervisor Local")) {
                         dispose();
                         new Supervisor().setVisible(true);
-                    } else if (NAME.equalsIgnoreCase("Administrador")) {
-                        dispose();
-                        new Supervisor().setVisible(true);
-                    }
+                    } else { JOptionPane.showMessageDialog(null, "*Datos incorrectos* Se debe ser Supervidor de Local para ingresar");}
+ //                   else if (NAME.equalsIgnoreCase("Administrador")) {
+ //                       dispose();
+ //                       new Supervisor().setVisible(true);
+ //                   }
                 } else {
-                    JOptionPane.showMessageDialog(null, "*Datos incorrectos* Se debe ser Supervidor de Local o Administrador para ingresar");
+                    JOptionPane.showMessageDialog(null, "*Datos incorrectos* Se debe ser Supervidor de Local para ingresar");
                     txt_user.setText("");
                     txt_password.setText("");
                 }
