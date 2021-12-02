@@ -38,7 +38,7 @@ public class Supervisor extends javax.swing.JFrame {
         /* Sirve para cerrar el programa una vez sea cerrada la pestaña de supervisor, osea, se finaliza la ejecución */
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         
-        ImageIcon fondo = new ImageIcon("src/imagenes/fondoLogin.jpg");
+        ImageIcon fondo = new ImageIcon("src/imagenes/blanco.jpg");
         Icon icono = new ImageIcon(fondo.getImage().getScaledInstance(jLabel_Fondo.getWidth(),jLabel_Fondo.getHeight(),
                 Image.SCALE_DEFAULT));
         
@@ -55,7 +55,7 @@ public class Supervisor extends javax.swing.JFrame {
             
             if (rs.next()) {
                 username = rs.getString("USERNAME");
-                jLabel_NombreUsuario.setText(username);
+                //jLabel_NombreUsuario.setText(username);
             }
         } catch (Exception e) {
             System.err.println("Error de conexión en la interfaz de supervisor"); 
@@ -82,19 +82,18 @@ public class Supervisor extends javax.swing.JFrame {
         jButton_GestionOrden = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
-        jLabel_NombreUsuario = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
+        jPanel1 = new javax.swing.JPanel();
         jLabel_Fondo = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setIconImage(getIconImage());
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel_Supervisor.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
+        jLabel_Supervisor.setFont(new java.awt.Font("Arial", 1, 24)); // NOI18N
         jLabel_Supervisor.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel_Supervisor.setText("Menú de gestión");
-        getContentPane().add(jLabel_Supervisor, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, -1, -1));
+        jLabel_Supervisor.setText("Menú Principal");
+        getContentPane().add(jLabel_Supervisor, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 15, -1, -1));
 
         jButton_GestionOrden.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/order_product.png"))); // NOI18N
         jButton_GestionOrden.addActionListener(new java.awt.event.ActionListener() {
@@ -104,24 +103,13 @@ public class Supervisor extends javax.swing.JFrame {
         });
         getContentPane().add(jButton_GestionOrden, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 100, 140, 140));
 
-        jLabel1.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel1.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
         jLabel1.setText("Gestión de Órdenes");
-        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 250, -1, -1));
+        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 250, -1, -1));
 
-        jLabel2.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel2.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
         jLabel2.setText("Perfil de Supervisor");
-        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 250, -1, -1));
-
-        jLabel3.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        jLabel3.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel3.setText("Bienvenido");
-        getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 60, -1, -1));
-
-        jLabel_NombreUsuario.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        jLabel_NombreUsuario.setForeground(new java.awt.Color(255, 255, 255));
-        getContentPane().add(jLabel_NombreUsuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(85, 60, -1, -1));
+        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(273, 250, -1, -1));
 
         jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/profile.png"))); // NOI18N
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -130,6 +118,9 @@ public class Supervisor extends javax.swing.JFrame {
             }
         });
         getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 100, 140, 140));
+
+        jPanel1.setBackground(new java.awt.Color(102, 102, 102));
+        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 480, 60));
         getContentPane().add(jLabel_Fondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 480, 440));
 
         pack();
@@ -188,9 +179,8 @@ public class Supervisor extends javax.swing.JFrame {
     private javax.swing.JButton jButton_GestionOrden;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel_Fondo;
-    private javax.swing.JLabel jLabel_NombreUsuario;
     private javax.swing.JLabel jLabel_Supervisor;
+    private javax.swing.JPanel jPanel1;
     // End of variables declaration//GEN-END:variables
 }

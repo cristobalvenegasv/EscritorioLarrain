@@ -59,7 +59,7 @@ public class GestionOrdenes extends javax.swing.JFrame {
         /* Con esto evitamos que el programa finalice cuando se cierra la ventana */
         setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         
-        ImageIcon fondo = new ImageIcon("src/imagenes/fondoLogin.jpg");
+        ImageIcon fondo = new ImageIcon("src/imagenes/blanco.jpg");
         Icon icono = new ImageIcon(fondo.getImage().getScaledInstance(jLabel_Fondo.getWidth(),jLabel_Fondo.getHeight(),
                 Image.SCALE_DEFAULT));
         
@@ -69,7 +69,7 @@ public class GestionOrdenes extends javax.swing.JFrame {
         try {
             Connection cn = Conexion.conectar();
             PreparedStatement pst = cn.prepareStatement(
-            "select ID, STATUS, to_char(paidat, 'dd/mm/yyyy'), TOTALPRICE, TRANSACTION_ID from PUNTOVENTAS_ORDERS");
+                "select po.ID, pu.FIRST_NAME, po.STATUS, to_char(po.PAIDAT, 'dd/mm/yyyy'), po.TOTALPRICE, po.TRANSACTION_ID from PUNTOVENTAS_ORDERS po inner join PUNTOVENTAS_USER pu on(po.id = pu.id) union all select po.ID, pu.FIRST_NAME, po.STATUS, to_char(po.PAIDAT, 'dd/mm/yyyy'), po.TOTALPRICE, po.TRANSACTION_ID from PUNTOVENTAS_USER pu inner join PUNTOVENTAS_ORDERS po on(pu.id = po.id)");
             
             ResultSet rs = pst.executeQuery();
             /* Se utiliza el jtable de ordenes */
@@ -79,18 +79,19 @@ public class GestionOrdenes extends javax.swing.JFrame {
             
             /* Añado las columnas que voy a utilizar. La primera es el ID */
             model.addColumn("Id");
+            model.addColumn("Nombre");
             model.addColumn("Estado");
             model.addColumn("Fecha de orden");
-            model.addColumn("Precio pagado");
+            model.addColumn("Precio total");
             model.addColumn("Número de transacción");
             
             while(rs.next()) {
                 /* Vector de tipo Object por el tipo de dato que tiene el JTable */ 
-                /* Ademas agregamos 4 por las 4 columnas que hay en nuestra tabla*/
-                Object[] fila = new Object[5];
+                /* Ademas agregamos 6 por las 6 columnas que hay en nuestra tabla*/
+                Object[] fila = new Object[6];
                 
-                /* Mientras i sea menor a 4(cantidad de columnas) este se irá incrementando */
-                for (int i = 0; i < 5; i++) {
+                /* Mientras i sea menor a 6(cantidad de columnas) este se irá incrementando */
+                for (int i = 0; i < 6; i++) {
                     /* Aquí obtenemos los objetos i + 1 puesto que aquí recorrera a partir de 0 y subando 1 hasta la cantidad de columnas*/
                     fila[i] = rs.getObject(i + 1);
                 }
@@ -127,16 +128,17 @@ public class GestionOrdenes extends javax.swing.JFrame {
         jButton_Circular = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
+        jPanel1 = new javax.swing.JPanel();
         jLabel_Fondo = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setIconImage(getIconImage());
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel_Titulo.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
+        jLabel_Titulo.setFont(new java.awt.Font("Arial", 1, 24)); // NOI18N
         jLabel_Titulo.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel_Titulo.setText("Ordenes realizadas");
-        getContentPane().add(jLabel_Titulo, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 10, -1, -1));
+        jLabel_Titulo.setText("Órdenes de Compra");
+        getContentPane().add(jLabel_Titulo, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 14, -1, -1));
 
         jTable_ordenes.setBackground(new java.awt.Color(204, 204, 204));
         jTable_ordenes.setModel(new javax.swing.table.DefaultTableModel(
@@ -152,7 +154,7 @@ public class GestionOrdenes extends javax.swing.JFrame {
         ));
         jScrollPane1.setViewportView(jTable_ordenes);
 
-        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(72, 70, 550, 180));
+        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 80, 640, 180));
 
         jButton_Imprimir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/print.png"))); // NOI18N
         jButton_Imprimir.addActionListener(new java.awt.event.ActionListener() {
@@ -162,10 +164,9 @@ public class GestionOrdenes extends javax.swing.JFrame {
         });
         getContentPane().add(jButton_Imprimir, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 290, 140, 140));
 
-        jLabel1.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel1.setText("Imprimir Ordenes");
-        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(75, 430, -1, -1));
+        jLabel1.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        jLabel1.setText("Imprimir Órdenes");
+        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 430, -1, -1));
 
         jButton_Barras.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/barchart.png"))); // NOI18N
         jButton_Barras.addActionListener(new java.awt.event.ActionListener() {
@@ -183,15 +184,16 @@ public class GestionOrdenes extends javax.swing.JFrame {
         });
         getContentPane().add(jButton_Circular, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 290, 140, 140));
 
-        jLabel2.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel2.setText("Gráficos de órdenes");
-        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(285, 430, -1, -1));
+        jLabel2.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        jLabel2.setText("Gráficos de Ventas");
+        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 430, -1, -1));
 
-        jLabel3.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        jLabel3.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel3.setText("Gráfico de precio");
-        getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 430, -1, -1));
+        jLabel3.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        jLabel3.setText("Gráfico de Tendencia");
+        getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(472, 430, -1, -1));
+
+        jPanel1.setBackground(new java.awt.Color(102, 102, 102));
+        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 700, 60));
         getContentPane().add(jLabel_Fondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 700, 500));
 
         pack();
@@ -218,15 +220,16 @@ public class GestionOrdenes extends javax.swing.JFrame {
             
             Paragraph parrafo = new Paragraph();
             parrafo.setAlignment(Paragraph.ALIGN_CENTER);
-            parrafo.add("Ordenes realizadas. \n \n");
-            parrafo.setFont(FontFactory.getFont("Arial", 14, Font.NORMAL, BaseColor.LIGHT_GRAY));
+            parrafo.add("Ordenes realizadas \n \n");
+            parrafo.setFont(FontFactory.getFont("Arial", 12, Font.NORMAL, BaseColor.LIGHT_GRAY));
                         
             documento.open();
             documento.add(encabezado);
             documento.add(parrafo);
             
-            PdfPTable ordenes = new PdfPTable(4);
+            PdfPTable ordenes = new PdfPTable(5);
             ordenes.addCell("Número de transacción");
+            ordenes.addCell("Nombre Cliente");
             ordenes.addCell("Estado");
             ordenes.addCell("Precio Pagado");
             ordenes.addCell("Fecha de pago");
@@ -235,7 +238,7 @@ public class GestionOrdenes extends javax.swing.JFrame {
             try {
                 Connection cn = Conexion.conectar();
                 PreparedStatement pst = cn.prepareStatement(
-                "select TRANSACTION_ID, STATUS, TOTALPRICE, to_char(PAIDAT, 'dd/mm/yyyy') from PUNTOVENTAS_ORDERS");
+                "select po.TRANSACTION_ID, pu.FIRST_NAME, po.STATUS, po.TOTALPRICE, to_char(po.PAIDAT, 'dd/mm/yyyy') from PUNTOVENTAS_ORDERS po inner join PUNTOVENTAS_USER pu on(po.id = pu.id) union all select po.TRANSACTION_ID, pu.FIRST_NAME, po.STATUS, po.TOTALPRICE, to_char(po.PAIDAT, 'dd/mm/yyyy') from PUNTOVENTAS_USER pu inner join PUNTOVENTAS_ORDERS po on(pu.id = po.id)");
                 
                 ResultSet rs = pst.executeQuery();
                 
@@ -245,6 +248,7 @@ public class GestionOrdenes extends javax.swing.JFrame {
                         ordenes.addCell(rs.getString(2));
                         ordenes.addCell(rs.getString(3));
                         ordenes.addCell(rs.getString(4));
+                        ordenes.addCell(rs.getString(5));
                        
                     } while (rs.next());
                     
@@ -317,6 +321,7 @@ public class GestionOrdenes extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel_Fondo;
     private javax.swing.JLabel jLabel_Titulo;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable_ordenes;
     // End of variables declaration//GEN-END:variables

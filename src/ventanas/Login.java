@@ -32,7 +32,7 @@ public class Login extends javax.swing.JFrame {
         setTitle("Inicio de Sesión");
         setLocationRelativeTo(null);
      
-        ImageIcon fondo = new ImageIcon("src/imagenes/fondoLogin.jpg");
+        ImageIcon fondo = new ImageIcon("src/imagenes/blanco.jpg");
         /* Adaptar imagen a las dimensiones establecidas */
         Icon icono = new ImageIcon(fondo.getImage().getScaledInstance(jLabel_Fondo.getWidth(),jLabel_Fondo.getHeight(),
                 Image.SCALE_DEFAULT));
@@ -46,6 +46,21 @@ public class Login extends javax.swing.JFrame {
                 Image.SCALE_DEFAULT));
         
         jLabel_Logo.setIcon(icono_logo);
+        this.repaint();
+    
+        
+        ImageIcon logo_usuario = new ImageIcon("src/imagenes/user_icon.png");
+        Icon icono_usuario = new ImageIcon(logo_usuario.getImage().getScaledInstance(jLabel_IconoUsuario.getWidth(), jLabel_IconoUsuario.getHeight(),
+                Image.SCALE_DEFAULT));
+        
+        jLabel_IconoUsuario.setIcon(icono_usuario);
+        this.repaint();
+        
+        ImageIcon logo_clave = new ImageIcon("src/imagenes/lock_password.png");
+        Icon icono_clave = new ImageIcon(logo_clave.getImage().getScaledInstance(jLabel_IconoContraseña.getWidth(), jLabel_IconoContraseña.getHeight(),
+                Image.SCALE_DEFAULT));
+        
+        jLabel_IconoContraseña.setIcon(icono_clave);
         this.repaint();
     }
     
@@ -73,16 +88,18 @@ public class Login extends javax.swing.JFrame {
         jLabel_Footer = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
+        jPanel1 = new javax.swing.JPanel();
+        jLabel_IconoUsuario = new javax.swing.JLabel();
+        jLabel_IconoContraseña = new javax.swing.JLabel();
         jLabel_Fondo = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setIconImage(getIconImage());
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-        getContentPane().add(jLabel_Logo, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 30, 270, 70));
+        getContentPane().add(jLabel_Logo, new org.netbeans.lib.awtextra.AbsoluteConstraints(85, 15, 220, 60));
 
-        txt_password.setBackground(new java.awt.Color(183, 183, 183));
+        txt_password.setBackground(new java.awt.Color(220, 220, 220));
         txt_password.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        txt_password.setForeground(new java.awt.Color(255, 255, 255));
         txt_password.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         txt_password.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
         txt_password.addActionListener(new java.awt.event.ActionListener() {
@@ -92,7 +109,7 @@ public class Login extends javax.swing.JFrame {
         });
         getContentPane().add(txt_password, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 270, 210, -1));
 
-        txt_user.setBackground(new java.awt.Color(183, 183, 183));
+        txt_user.setBackground(new java.awt.Color(220, 220, 220));
         txt_user.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         txt_user.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         txt_user.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
@@ -104,12 +121,12 @@ public class Login extends javax.swing.JFrame {
         getContentPane().add(txt_user, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 220, 210, -1));
 
         jLabel1.setBackground(new java.awt.Color(102, 102, 102));
-        jLabel1.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel1.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(51, 51, 51));
         jLabel1.setText("BIENVENIDO A WYKEP");
-        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 160, -1, -1));
+        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 160, -1, -1));
 
-        btn_Acceder.setBackground(new java.awt.Color(183, 183, 183));
+        btn_Acceder.setBackground(new java.awt.Color(255, 255, 255));
         btn_Acceder.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         btn_Acceder.setText("Ingresar");
         btn_Acceder.setBorder(null);
@@ -120,19 +137,33 @@ public class Login extends javax.swing.JFrame {
         });
         getContentPane().add(btn_Acceder, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 310, 210, 35));
 
-        jLabel_Footer.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel_Footer.setFont(new java.awt.Font("Arial", 0, 10)); // NOI18N
+        jLabel_Footer.setForeground(new java.awt.Color(51, 51, 51));
         jLabel_Footer.setText("Wykep - Tus importaciones al momento");
         getContentPane().add(jLabel_Footer, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 420, -1, 30));
 
-        jLabel2.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel2.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(51, 51, 51));
         jLabel2.setText("Nombre de Usuario");
-        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 200, -1, -1));
+        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(92, 200, -1, -1));
 
-        jLabel3.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        jLabel3.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel3.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(51, 51, 51));
         jLabel3.setText("Contraseña");
-        getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 250, -1, -1));
+        getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(92, 250, -1, -1));
+
+        jPanel1.setBackground(new java.awt.Color(102, 102, 102));
+        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 400, 80));
+        getContentPane().add(jLabel_IconoUsuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(65, 223, 21, 21));
+
+        jLabel_IconoContraseña.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/lock_password.png"))); // NOI18N
+        jLabel_IconoContraseña.setMaximumSize(new java.awt.Dimension(30, 30));
+        jLabel_IconoContraseña.setMinimumSize(new java.awt.Dimension(30, 30));
+        jLabel_IconoContraseña.setPreferredSize(new java.awt.Dimension(30, 30));
+        getContentPane().add(jLabel_IconoContraseña, new org.netbeans.lib.awtextra.AbsoluteConstraints(66, 273, 18, 18));
+
+        jLabel_Fondo.setBackground(new java.awt.Color(255, 255, 255));
+        jLabel_Fondo.setForeground(new java.awt.Color(255, 255, 255));
         getContentPane().add(jLabel_Fondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 400, 470));
 
         pack();
@@ -153,7 +184,7 @@ public class Login extends javax.swing.JFrame {
         /* Definimos las variables que obtendran el texto de los campos a llenar */
         user = txt_user.getText().trim();
         pw = txt_password.getText().trim();
-        
+
         /* Validar que los campos no queden en blanco */
         if (!user.equals("") || !pw.equals("")) {
             try {
@@ -172,13 +203,13 @@ public class Login extends javax.swing.JFrame {
                     if (NAME.equalsIgnoreCase("Supervisor Local")) {
                         dispose();
                         new Supervisor().setVisible(true);
-                    } else { JOptionPane.showMessageDialog(null, "*Datos incorrectos* Se debe ser Supervidor de Local para ingresar");}
+                    } else { JOptionPane.showMessageDialog(null, "*Datos incorrectos* Debe ser Supervisor de Local para ingresar");}
  //                   else if (NAME.equalsIgnoreCase("Administrador")) {
  //                       dispose();
  //                       new Supervisor().setVisible(true);
  //                   }
                 } else {
-                    JOptionPane.showMessageDialog(null, "*Datos incorrectos* Se debe ser Supervidor de Local para ingresar");
+                    JOptionPane.showMessageDialog(null, "*Datos incorrectos* Debe ser Supervisor de Local para ingresar");
                     txt_user.setText("");
                     txt_password.setText("");
                 }
@@ -236,7 +267,10 @@ public class Login extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel_Fondo;
     private javax.swing.JLabel jLabel_Footer;
+    private javax.swing.JLabel jLabel_IconoContraseña;
+    private javax.swing.JLabel jLabel_IconoUsuario;
     private javax.swing.JLabel jLabel_Logo;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JPasswordField txt_password;
     private javax.swing.JTextField txt_user;
     // End of variables declaration//GEN-END:variables

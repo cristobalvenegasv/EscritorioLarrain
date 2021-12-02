@@ -22,6 +22,7 @@ import javax.swing.WindowConstants;
 public class Perfil extends javax.swing.JFrame {
 
     String user, username, nombre, apellido, correo;
+    
     /**
      * Creates new form Perfil
      */
@@ -29,17 +30,23 @@ public class Perfil extends javax.swing.JFrame {
         initComponents();
         user = Login.user;
         
-        setSize(450, 400);
+        setSize(500, 450);
         setTitle("Pérfil de Supervisor");
         setResizable(false);
         setLocationRelativeTo(null);
         
         setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         
-        ImageIcon fondo = new ImageIcon("src/imagenes/fondoLogin.jpg");
+        ImageIcon fondo = new ImageIcon("src/imagenes/blanco.jpg");
         Icon icono = new ImageIcon(fondo.getImage().getScaledInstance(jLabel_Fondo.getWidth(),jLabel_Fondo.getHeight(),
                 Image.SCALE_DEFAULT));
         jLabel_Fondo.setIcon(icono);
+        this.repaint();
+                
+        ImageIcon logo_supervisor = new ImageIcon("src/imagenes/logo_supervisor.png");
+        Icon icono_supervisor = new ImageIcon(logo_supervisor.getImage().getScaledInstance(jLabel_logoSupervisor.getWidth(),jLabel_logoSupervisor.getHeight(),
+                Image.SCALE_DEFAULT));
+        jLabel_logoSupervisor.setIcon(icono_supervisor);
         this.repaint();
         
         try {
@@ -61,7 +68,7 @@ public class Perfil extends javax.swing.JFrame {
                 txt_Correo.setText(correo);
             }
             if (rs.next()) {
-
+                
             }
             cn.close();
         } catch (Exception e) {
@@ -93,6 +100,8 @@ public class Perfil extends javax.swing.JFrame {
         txt_Apellido = new javax.swing.JTextField();
         txt_Correo = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
+        jPanel1 = new javax.swing.JPanel();
+        jLabel_logoSupervisor = new javax.swing.JLabel();
         jLabel_Fondo = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -100,46 +109,55 @@ public class Perfil extends javax.swing.JFrame {
 
         jLabel_NombreUsuario.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         jLabel_NombreUsuario.setText("Nombre de usuario");
-        getContentPane().add(jLabel_NombreUsuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 60, -1, -1));
+        getContentPane().add(jLabel_NombreUsuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(22, 100, -1, -1));
 
         jLabel_Nombre.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         jLabel_Nombre.setText("Nombre");
-        getContentPane().add(jLabel_Nombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 130, -1, -1));
+        getContentPane().add(jLabel_Nombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(22, 170, -1, -1));
 
         jLabel_Apellido.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         jLabel_Apellido.setText("Apellido");
-        getContentPane().add(jLabel_Apellido, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 200, -1, -1));
+        getContentPane().add(jLabel_Apellido, new org.netbeans.lib.awtextra.AbsoluteConstraints(22, 240, -1, -1));
 
         jLabel_Correo.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         jLabel_Correo.setText("Correo eléctronico");
-        getContentPane().add(jLabel_Correo, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 270, -1, -1));
+        getContentPane().add(jLabel_Correo, new org.netbeans.lib.awtextra.AbsoluteConstraints(22, 310, -1, -1));
 
+        txt_NombreUsuario.setFont(new java.awt.Font("Arial", 1, 13)); // NOI18N
         txt_NombreUsuario.setEnabled(false);
-        getContentPane().add(txt_NombreUsuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 90, 220, -1));
+        getContentPane().add(txt_NombreUsuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 130, 220, 25));
 
+        txt_Nombre.setFont(new java.awt.Font("Arial", 1, 13)); // NOI18N
         txt_Nombre.setEnabled(false);
         txt_Nombre.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 txt_NombreKeyTyped(evt);
             }
         });
-        getContentPane().add(txt_Nombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 160, 220, -1));
+        getContentPane().add(txt_Nombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 200, 220, 25));
 
+        txt_Apellido.setFont(new java.awt.Font("Arial", 1, 13)); // NOI18N
         txt_Apellido.setEnabled(false);
         txt_Apellido.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 txt_ApellidoKeyTyped(evt);
             }
         });
-        getContentPane().add(txt_Apellido, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 230, 220, -1));
+        getContentPane().add(txt_Apellido, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 270, 220, 25));
 
+        txt_Correo.setFont(new java.awt.Font("Arial", 1, 13)); // NOI18N
         txt_Correo.setEnabled(false);
-        getContentPane().add(txt_Correo, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 300, 220, -1));
+        getContentPane().add(txt_Correo, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 340, 220, 25));
 
         jLabel1.setFont(new java.awt.Font("Arial", 1, 24)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setText("Perfil de Supervisor");
-        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, -1, -1));
-        getContentPane().add(jLabel_Fondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 450, 400));
+        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 17, -1, -1));
+
+        jPanel1.setBackground(new java.awt.Color(102, 102, 102));
+        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 500, 60));
+        getContentPane().add(jLabel_logoSupervisor, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 130, 160, 160));
+        getContentPane().add(jLabel_Fondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 500, 450));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -202,6 +220,8 @@ public class Perfil extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel_Fondo;
     private javax.swing.JLabel jLabel_Nombre;
     private javax.swing.JLabel jLabel_NombreUsuario;
+    private javax.swing.JLabel jLabel_logoSupervisor;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JTextField txt_Apellido;
     private javax.swing.JTextField txt_Correo;
     private javax.swing.JTextField txt_Nombre;
