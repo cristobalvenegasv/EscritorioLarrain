@@ -69,7 +69,7 @@ public class GestionOrdenes extends javax.swing.JFrame {
         try {
             Connection cn = Conexion.conectar();
             PreparedStatement pst = cn.prepareStatement(
-                "select po.ID, pu.FIRST_NAME, po.STATUS, to_char(po.PAIDAT, 'dd/mm/yyyy'), po.TOTALPRICE, po.TRANSACTION_ID from PUNTOVENTAS_ORDERS po inner join PUNTOVENTAS_USER pu on(po.id = pu.id) union all select po.ID, pu.FIRST_NAME, po.STATUS, to_char(po.PAIDAT, 'dd/mm/yyyy'), po.TOTALPRICE, po.TRANSACTION_ID from PUNTOVENTAS_USER pu inner join PUNTOVENTAS_ORDERS po on(pu.id = po.id)");
+                "select pu.USERNAME, pu.FIRST_NAME, po.STATUS, to_char(po.PAIDAT, 'dd/mm/yyyy'), to_char(po.ARRIVALDATE, 'dd/mm/yyyy'), po.TOTALPRICE, po.TRANSACTION_ID from PUNTOVENTAS_ORDERS po left join PUNTOVENTAS_USER pu on(po.USER_ID = pu.ID) where TOTALPRICE != 0 order by PAIDAT");
             
             ResultSet rs = pst.executeQuery();
             /* Se utiliza el jtable de ordenes */
@@ -78,20 +78,21 @@ public class GestionOrdenes extends javax.swing.JFrame {
             jScrollPane1.setViewportView(jTable_ordenes);
             
             /* Añado las columnas que voy a utilizar. La primera es el ID */
-            model.addColumn("Id");
+            model.addColumn("Usuario");
             model.addColumn("Nombre");
             model.addColumn("Estado");
-            model.addColumn("Fecha de orden");
-            model.addColumn("Precio total");
-            model.addColumn("Número de transacción");
+            model.addColumn("Fecha de Pago");
+            model.addColumn("Fecha de Envío");
+            model.addColumn("Precio Total");
+            model.addColumn("N° Transacción");
             
             while(rs.next()) {
                 /* Vector de tipo Object por el tipo de dato que tiene el JTable */ 
-                /* Ademas agregamos 6 por las 6 columnas que hay en nuestra tabla*/
-                Object[] fila = new Object[6];
+                /* Ademas agregamos 7 por las 7 columnas que hay en nuestra tabla*/
+                Object[] fila = new Object[7];
                 
-                /* Mientras i sea menor a 6(cantidad de columnas) este se irá incrementando */
-                for (int i = 0; i < 6; i++) {
+                /* Mientras i sea menor a 7(cantidad de columnas) este se irá incrementando */
+                for (int i = 0; i < 7; i++) {
                     /* Aquí obtenemos los objetos i + 1 puesto que aquí recorrera a partir de 0 y subando 1 hasta la cantidad de columnas*/
                     fila[i] = rs.getObject(i + 1);
                 }
@@ -205,11 +206,12 @@ public class GestionOrdenes extends javax.swing.JFrame {
         /* Se crea un objeto de la clase document obtenido desde nuestra libreria */
         Document documento = new Document();
         
+        String fecha;
         /* Aquí genero la estructura de nuestro pdf */
         try {
             /* Damos la ubicación a la ruta donde enviaremos el pdf */
             String ruta = System.getProperty("user.home");
-            PdfWriter.getInstance(documento, new FileOutputStream(ruta + "/Desktop/" + "Reporte-Ordenes" + ".pdf"));
+            PdfWriter.getInstance(documento, new FileOutputStream(ruta + "/Desktop/" + "Reporte-Ordenes" + Login.user + ".pdf"));
             
             /* Acá se obtiene la imagen para darle el encabezado al formato del pdf */
             com.itextpdf.text.Image encabezado = com.itextpdf.text.Image.getInstance("src/imagenes/logo_wykep.png");
@@ -221,24 +223,25 @@ public class GestionOrdenes extends javax.swing.JFrame {
             Paragraph parrafo = new Paragraph();
             parrafo.setAlignment(Paragraph.ALIGN_CENTER);
             parrafo.add("Ventas realizadas \n \n");
-            parrafo.setFont(FontFactory.getFont("Arial", 12, Font.NORMAL, BaseColor.LIGHT_GRAY));
-                        
+            parrafo.setFont(FontFactory.getFont("Arial", 18, Font.BOLD, BaseColor.LIGHT_GRAY));
+            
             documento.open();
             documento.add(encabezado);
             documento.add(parrafo);
             
-            PdfPTable ordenes = new PdfPTable(5);
-            ordenes.addCell("Número de transacción");
-            ordenes.addCell("Nombre Cliente");
+            PdfPTable ordenes = new PdfPTable(6);
+            ordenes.addCell("Usuario");
             ordenes.addCell("Estado");
-            ordenes.addCell("Precio Pagado");
-            ordenes.addCell("Fecha de pago");
+            ordenes.addCell("Fecha de Pago");
+            ordenes.addCell("Fecha de Envío");
+            ordenes.addCell("Precio Total");
+            ordenes.addCell("N° Transacción");
             
             
             try {
                 Connection cn = Conexion.conectar();
                 PreparedStatement pst = cn.prepareStatement(
-                "select po.TRANSACTION_ID, pu.FIRST_NAME, po.STATUS, po.TOTALPRICE, to_char(po.PAIDAT, 'dd/mm/yyyy') from PUNTOVENTAS_ORDERS po inner join PUNTOVENTAS_USER pu on(po.id = pu.id) union all select po.TRANSACTION_ID, pu.FIRST_NAME, po.STATUS, po.TOTALPRICE, to_char(po.PAIDAT, 'dd/mm/yyyy') from PUNTOVENTAS_USER pu inner join PUNTOVENTAS_ORDERS po on(pu.id = po.id)");
+                "select pu.USERNAME, po.STATUS, to_char(po.PAIDAT, 'dd/mm/yyyy'), to_char(po.ARRIVALDATE, 'dd/mm/yyyy'), po.TOTALPRICE, po.TRANSACTION_ID from PUNTOVENTAS_ORDERS po left join PUNTOVENTAS_USER pu on(po.USER_ID = pu.ID) where TOTALPRICE != 0 order by PAIDAT");
                 
                 ResultSet rs = pst.executeQuery();
                 
@@ -249,6 +252,7 @@ public class GestionOrdenes extends javax.swing.JFrame {
                         ordenes.addCell(rs.getString(3));
                         ordenes.addCell(rs.getString(4));
                         ordenes.addCell(rs.getString(5));
+                        ordenes.addCell(rs.getString(6));
                        
                     } while (rs.next());
                     
