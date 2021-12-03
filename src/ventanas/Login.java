@@ -63,7 +63,7 @@ public class Login extends javax.swing.JFrame {
         jLabel_IconoContraseña.setIcon(icono_clave);
         this.repaint();
     }
-    
+
     @Override
     /* Aquí le asignamos un logo a la aplicación al momento de ejecutarlo */
     public Image getIconImage() {
@@ -184,7 +184,7 @@ public class Login extends javax.swing.JFrame {
         /* Definimos las variables que obtendran el texto de los campos a llenar */
         user = txt_user.getText().trim();
         pw = txt_password.getText().trim();
-
+        
         /* Validar que los campos no queden en blanco */
         if (!user.equals("") || !pw.equals("")) {
             try {

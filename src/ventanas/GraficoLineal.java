@@ -12,6 +12,7 @@ import java.awt.Image;
 import java.awt.Toolkit;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
 import javax.swing.WindowConstants;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
@@ -265,63 +266,71 @@ public class GraficoLineal extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
 
-        // Clase a utilizar de nuestra libreria 
-        XYSeries serie = new XYSeries("Ventas");
-        // Defino las variables tipo entero en donde almacenare las cantidades que se escriben en los campos de texto
+        if (jTextField_Cantidad1.getText().isEmpty() || jTextField_Cantidad2.getText().isEmpty() || jTextField_Cantidad3.getText().isEmpty()
+                || jTextField_Cantidad4.getText().isEmpty() || jTextField_Cantidad5.getText().isEmpty() || jTextField_Cantidad6.getText().isEmpty()
+                || jTextField_Cantidad7.getText().isEmpty() || jTextField_Cantidad8.getText().isEmpty() || jTextField_Cantidad9.getText().isEmpty()
+                || jTextField_Cantidad10.getText().isEmpty() || jTextField_Cantidad11.getText().isEmpty() || jTextField_Cantidad12.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "No dejar campos vacíos. Si en el mes no se realizaron ventas dejar en 0");
+        } else {
+            // Clase a utilizar de nuestra libreria 
+            XYSeries serie = new XYSeries("Ventas");
+            // Defino las variables tipo entero en donde almacenare las cantidades que se escriben en los campos de texto
 
-        int cantidad1 = Integer.parseInt(jTextField_Cantidad1.getText());
-        int cantidad2 = Integer.parseInt(jTextField_Cantidad2.getText());
-        int cantidad3 = Integer.parseInt(jTextField_Cantidad3.getText());
-        int cantidad4 = Integer.parseInt(jTextField_Cantidad4.getText());
-        int cantidad5 = Integer.parseInt(jTextField_Cantidad5.getText());
-        int cantidad6 = Integer.parseInt(jTextField_Cantidad6.getText());
-        int cantidad7 = Integer.parseInt(jTextField_Cantidad7.getText());
-        int cantidad8 = Integer.parseInt(jTextField_Cantidad8.getText());
-        int cantidad9 = Integer.parseInt(jTextField_Cantidad9.getText());
-        int cantidad10 = Integer.parseInt(jTextField_Cantidad10.getText());
-        int cantidad11 = Integer.parseInt(jTextField_Cantidad11.getText());
-        int cantidad12 = Integer.parseInt(jTextField_Cantidad12.getText());
-        
-        // Se asigna eje X y eje Y
-        serie.add(1, cantidad1);
-        serie.add(2, cantidad2);
-        serie.add(3, cantidad3);
-        serie.add(4, cantidad4);
-        serie.add(5, cantidad5);
-        serie.add(6, cantidad6);
-        serie.add(7, cantidad7);
-        serie.add(8, cantidad8);
-        serie.add(9, cantidad9);
-        serie.add(10, cantidad10);
-        serie.add(11, cantidad11);
-        serie.add(12, cantidad12);
+            int cantidad1 = Integer.parseInt(jTextField_Cantidad1.getText());
+            int cantidad2 = Integer.parseInt(jTextField_Cantidad2.getText());
+            int cantidad3 = Integer.parseInt(jTextField_Cantidad3.getText());
+            int cantidad4 = Integer.parseInt(jTextField_Cantidad4.getText());
+            int cantidad5 = Integer.parseInt(jTextField_Cantidad5.getText());
+            int cantidad6 = Integer.parseInt(jTextField_Cantidad6.getText());
+            int cantidad7 = Integer.parseInt(jTextField_Cantidad7.getText());
+            int cantidad8 = Integer.parseInt(jTextField_Cantidad8.getText());
+            int cantidad9 = Integer.parseInt(jTextField_Cantidad9.getText());
+            int cantidad10 = Integer.parseInt(jTextField_Cantidad10.getText());
+            int cantidad11 = Integer.parseInt(jTextField_Cantidad11.getText());
+            int cantidad12 = Integer.parseInt(jTextField_Cantidad12.getText());
+
+            // Se asigna eje X y eje Y
+            serie.add(1, cantidad1);
+            serie.add(2, cantidad2);
+            serie.add(3, cantidad3);
+            serie.add(4, cantidad4);
+            serie.add(5, cantidad5);
+            serie.add(6, cantidad6);
+            serie.add(7, cantidad7);
+            serie.add(8, cantidad8);
+            serie.add(9, cantidad9);
+            serie.add(10, cantidad10);
+            serie.add(11, cantidad11);
+            serie.add(12, cantidad12);
 
 
-        // Data set guarda la data para los gráficos
-        XYSeriesCollection datos = new XYSeriesCollection();
-        // Añado el objeto de serie a nuestro dataset
-        datos.addSeries(serie);
+            // Data set guarda la data para los gráficos
+            XYSeriesCollection datos = new XYSeriesCollection();
+            // Añado el objeto de serie a nuestro dataset
+            datos.addSeries(serie);
+
+
+            // Creación del gráfico
+            JFreeChart lineal = ChartFactory.createXYLineChart(
+                    "Ventas realizadas", 
+                    "Meses", 
+                    "Cantidad de Ventas", 
+                    datos, 
+                    PlotOrientation.VERTICAL, 
+                    true,
+                    true, 
+                    false);
+
+            ChartPanel panel = new ChartPanel(lineal);
+
+            // Establecemos el borde 
+            jPanel_Lineal.setLayout(new java.awt.BorderLayout());
+            // Agregamos el panel a nuestro jPanel
+            jPanel_Lineal.add(panel);
+            // Para visualizar correctamente se valida
+            jPanel_Lineal.validate();
+            }
         
-        
-        // Creación del gráfico
-        JFreeChart lineal = ChartFactory.createXYLineChart(
-                "Ventas realizadas", 
-                "Meses", 
-                "Cantidad de Ventas", 
-                datos, 
-                PlotOrientation.VERTICAL, 
-                true,
-                true, 
-                false);
-        
-        ChartPanel panel = new ChartPanel(lineal);
-        
-        // Establecemos el borde 
-        jPanel_Lineal.setLayout(new java.awt.BorderLayout());
-        // Agregamos el panel a nuestro jPanel
-        jPanel_Lineal.add(panel);
-        // Para visualizar correctamente se valida
-        jPanel_Lineal.validate();
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jTextField_Cantidad12KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField_Cantidad12KeyTyped

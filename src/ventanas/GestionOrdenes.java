@@ -220,7 +220,7 @@ public class GestionOrdenes extends javax.swing.JFrame {
             
             Paragraph parrafo = new Paragraph();
             parrafo.setAlignment(Paragraph.ALIGN_CENTER);
-            parrafo.add("Ordenes realizadas \n \n");
+            parrafo.add("Ventas realizadas \n \n");
             parrafo.setFont(FontFactory.getFont("Arial", 12, Font.NORMAL, BaseColor.LIGHT_GRAY));
                         
             documento.open();

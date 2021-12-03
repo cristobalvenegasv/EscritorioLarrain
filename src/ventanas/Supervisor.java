@@ -8,8 +8,12 @@ import java.sql.*;
 import clases.Conexion;
 import java.awt.Image;
 import java.awt.Toolkit;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.WindowConstants;
 /**
  *
@@ -25,6 +29,7 @@ public class Supervisor extends javax.swing.JFrame {
      */
     public Supervisor() {
         initComponents();
+//        setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
         /* Acá obtengo el usuario con el que se inició sesión en Login*/
         user = Login.user;
         
@@ -68,6 +73,39 @@ public class Supervisor extends javax.swing.JFrame {
         return retValue;
     }
 
+//    private void cerrarVentana() {
+//        String botones[] = {"Salir", "Cancelar"};
+//        int valor = JOptionPane.showOptionDialog(this, "¿Desea salir de la aplicación?", "Aviso", 0, 0, null, botones, this);
+//        if (valor==JOptionPane.YES_OPTION) {
+//            System.exit(0);
+//        } else if (valor==JOptionPane.NO_OPTION){
+//                System.out.println("se cancela el cierre");
+//        }
+//    }
+    // Metodo para confirmar cierre de la ventana
+    //private void cerrar(){
+    //    try {
+      //      this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        //    addWindowListener(new WindowAdapter(){
+          //      public void windowClosing(WindowEvent e) {
+            //        confirmarCerrar();
+              //  }
+            //});
+        //} catch (Exception e) {
+        //    e.printStackTrace();
+        //}
+    //}
+    
+    // Confirmar cierre
+    //public void confirmarCerrar(){
+    //    int valor = JOptionPane.showConfirmDialog(null, "¿Desea salir de la aplicación?", "Advertencia", JOptionPane.YES_NO_OPTION);
+    //    if (valor == JOptionPane.YES_OPTION) {
+            
+    //    }else{
+    //        JOptionPane.showMessageDialog(null, "ADIOS");
+    //        System.exit(0);
+    //    }
+    //}
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -88,6 +126,11 @@ public class Supervisor extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setIconImage(getIconImage());
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
+        });
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel_Supervisor.setFont(new java.awt.Font("Arial", 1, 24)); // NOI18N
@@ -138,6 +181,12 @@ public class Supervisor extends javax.swing.JFrame {
         GestionOrdenes gestionOrdenes = new GestionOrdenes();
         gestionOrdenes.setVisible(true);
     }//GEN-LAST:event_jButton_GestionOrdenActionPerformed
+
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        // TODO add your handling code here:
+        
+        //cerrarVentana();
+    }//GEN-LAST:event_formWindowClosing
 
     /**
      * @param args the command line arguments

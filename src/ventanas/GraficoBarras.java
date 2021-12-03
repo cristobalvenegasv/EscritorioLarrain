@@ -12,6 +12,7 @@ import java.awt.Image;
 import java.awt.Toolkit;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
 import javax.swing.WindowConstants;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
@@ -263,69 +264,75 @@ public class GraficoBarras extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
         
-        // Defino las variables tipo entero en donde almacenare las cantidades que se escriben en los campos de texto
-        
-        int cantidad1 = Integer.parseInt(jTextField_Cantidad1.getText());
-        int cantidad2 = Integer.parseInt(jTextField_Cantidad2.getText());
-        int cantidad3 = Integer.parseInt(jTextField_Cantidad3.getText());
-        int cantidad4 = Integer.parseInt(jTextField_Cantidad4.getText());
-        int cantidad5 = Integer.parseInt(jTextField_Cantidad5.getText());
-        int cantidad6 = Integer.parseInt(jTextField_Cantidad6.getText());
-        int cantidad7 = Integer.parseInt(jTextField_Cantidad7.getText());
-        int cantidad8 = Integer.parseInt(jTextField_Cantidad8.getText());
-        int cantidad9 = Integer.parseInt(jTextField_Cantidad9.getText());
-        int cantidad10 = Integer.parseInt(jTextField_Cantidad10.getText());
-        int cantidad11 = Integer.parseInt(jTextField_Cantidad11.getText());
-        int cantidad12 = Integer.parseInt(jTextField_Cantidad12.getText());
-        
-        
-        // Defino una clase la cual sirve para comenzar a graficar
-        
-        DefaultCategoryDataset datos = new DefaultCategoryDataset();
-         
-        // Aquí establecemos los valores que llevará nuestro grafico, gracias al metodo setValue donde le agregamos
-        // la cantidad, las ordenes y los meses
-        datos.setValue(cantidad1, "Ventas", "Enero");
-        datos.setValue(cantidad2, "Ventas", "Febrero");
-        datos.setValue(cantidad3, "Ventas", "Marzo");
-        datos.setValue(cantidad4, "Ventas", "Abril");
-        datos.setValue(cantidad5, "Ventas", "Mayo");
-        datos.setValue(cantidad6, "Ventas", "Junio");
-        datos.setValue(cantidad7, "Ventas", "Julio");
-        datos.setValue(cantidad8, "Ventas", "Agosto");
-        datos.setValue(cantidad9, "Ventas", "Septiembre");
-        datos.setValue(cantidad10, "Ventas", "Octubre");
-        datos.setValue(cantidad11, "Ventas", "Noviembre");
-        datos.setValue(cantidad12, "Ventas", "Diciembre");
-        
-        JFreeChart barras = ChartFactory.createBarChart3D(
-                "Ventas realizadas",           //Nombre del gráfico
-                "Meses",                        //Nombre de las barras
-                "Ventas",                      //Nombre de la numeración
-                datos,                          //Datos del gráfico
-                PlotOrientation.VERTICAL,       //Orientación del gráfico
-                true,                           //Leyendas de barras
-                true,                           //Herramientas 
-                false                           //Url del gráfico
-                
-        );
-        
-        // Acá creo un objeto de la clase ChartPanel proveniente de la librería y a este le asigno el grafico "barras"
-        ChartPanel panel = new ChartPanel(barras);
-        // Es para interactuar con la rueda del mouse
-        panel.setMouseWheelEnabled(true);
-        // Dimensiones del panel
-        panel.setPreferredSize(new Dimension(510,230));
-        
-        // Establecemos el borde 
-        jPanel_Barras.setLayout(new BorderLayout());
-        // Agregamos el panel a nuestro jPanel
-        jPanel_Barras.add(panel, BorderLayout.NORTH);
-        
-        //Muestra y vuelve a re pintar el gráfico 
-        pack();
-        repaint();
-        
+
+        if (jTextField_Cantidad1.getText().isEmpty() || jTextField_Cantidad2.getText().isEmpty() || jTextField_Cantidad3.getText().isEmpty()
+                || jTextField_Cantidad4.getText().isEmpty() || jTextField_Cantidad5.getText().isEmpty() || jTextField_Cantidad6.getText().isEmpty()
+                || jTextField_Cantidad7.getText().isEmpty() || jTextField_Cantidad8.getText().isEmpty() || jTextField_Cantidad9.getText().isEmpty()
+                || jTextField_Cantidad10.getText().isEmpty() || jTextField_Cantidad11.getText().isEmpty() || jTextField_Cantidad12.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "No dejar campos vacíos. Si en el mes no se realizaron ventas dejar en 0");
+        } else {
+            
+            // Defino las variables tipo entero en donde almacenare las cantidades que se escriben en los campos de texto
+            int cantidad1 = Integer.parseInt(jTextField_Cantidad1.getText());
+            int cantidad2 = Integer.parseInt(jTextField_Cantidad2.getText());
+            int cantidad3 = Integer.parseInt(jTextField_Cantidad3.getText());
+            int cantidad4 = Integer.parseInt(jTextField_Cantidad4.getText());
+            int cantidad5 = Integer.parseInt(jTextField_Cantidad5.getText());
+            int cantidad6 = Integer.parseInt(jTextField_Cantidad6.getText());
+            int cantidad7 = Integer.parseInt(jTextField_Cantidad7.getText());
+            int cantidad8 = Integer.parseInt(jTextField_Cantidad8.getText());
+            int cantidad9 = Integer.parseInt(jTextField_Cantidad9.getText());
+            int cantidad10 = Integer.parseInt(jTextField_Cantidad10.getText());
+            int cantidad11 = Integer.parseInt(jTextField_Cantidad11.getText());
+            int cantidad12 = Integer.parseInt(jTextField_Cantidad12.getText());
+
+
+            // Defino una clase la cual sirve para comenzar a graficar
+
+            DefaultCategoryDataset datos = new DefaultCategoryDataset();
+
+            // Aquí establecemos los valores que llevará nuestro grafico, gracias al metodo setValue donde le agregamos
+            // la cantidad, las ordenes y los meses
+            datos.setValue(cantidad1, "Ventas", "Enero");
+            datos.setValue(cantidad2, "Ventas", "Febrero");
+            datos.setValue(cantidad3, "Ventas", "Marzo");
+            datos.setValue(cantidad4, "Ventas", "Abril");
+            datos.setValue(cantidad5, "Ventas", "Mayo");
+            datos.setValue(cantidad6, "Ventas", "Junio");
+            datos.setValue(cantidad7, "Ventas", "Julio");
+            datos.setValue(cantidad8, "Ventas", "Agosto");
+            datos.setValue(cantidad9, "Ventas", "Septiembre");
+            datos.setValue(cantidad10, "Ventas", "Octubre");
+            datos.setValue(cantidad11, "Ventas", "Noviembre");
+            datos.setValue(cantidad12, "Ventas", "Diciembre");
+
+            JFreeChart barras = ChartFactory.createBarChart3D(
+                    "Ventas realizadas",           //Nombre del gráfico
+                    "Meses",                        //Nombre de las barras
+                    "Ventas",                      //Nombre de la numeración
+                    datos,                          //Datos del gráfico
+                    PlotOrientation.VERTICAL,       //Orientación del gráfico
+                    true,                           //Leyendas de barras
+                    true,                           //Herramientas 
+                    false                           //Url del gráfico
+
+            );
+
+            // Acá creo un objeto de la clase ChartPanel proveniente de la librería y a este le asigno el grafico "barras"
+            ChartPanel panel = new ChartPanel(barras);
+            // Es para interactuar con la rueda del mouse
+            panel.setMouseWheelEnabled(true);
+            // Dimensiones del panel
+            panel.setPreferredSize(new Dimension(510,230));
+
+            // Establecemos el borde 
+            jPanel_Barras.setLayout(new java.awt.BorderLayout());
+            // Agregamos el panel a nuestro jPanel
+            jPanel_Barras.add(panel);
+            // Para visualizar correctamente se valida
+            jPanel_Barras.validate();
+
+        }
         
     }//GEN-LAST:event_jButton1ActionPerformed
 
