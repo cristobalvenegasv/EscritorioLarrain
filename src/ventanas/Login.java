@@ -190,14 +190,14 @@ public class Login extends javax.swing.JFrame {
             try {
                 Connection cn = Conexion.conectar();
                 PreparedStatement pst = cn.prepareStatement(
-                    "select ag.NAME, u.* from AUTH_GROUP ag inner join PUNTOVENTAS_USER u on(ag.id = u.id) "
+                    "select ag.NAME, pu.* from PUNTOVENTAS_USER pu inner join PUNTOVENTAS_USER_GROUPS pug on(pu.id = pug.id) left join AUTH_GROUP ag on(pug.group_id = ag.id)"
                             + "where USERNAME ='" + user + "' and PASSWORD = '" + pw + "'");
                 
                 ResultSet rs = pst.executeQuery();
                 /* rs.next() sirve para ver si la consulta encontro coincidencias con los datos */
                 if (rs.next()) {
                     /*  SUPERVISOR LOCAL */
-                    
+                        
                     String NAME = rs.getString("NAME");
                     
                     if (NAME.equalsIgnoreCase("Supervisor Local")) {
