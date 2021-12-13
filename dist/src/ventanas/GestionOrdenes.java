@@ -213,7 +213,7 @@ public class GestionOrdenes extends javax.swing.JFrame {
         try {
             /* Damos la ubicación a la ruta donde enviaremos el pdf */
             String ruta = System.getProperty("user.home");
-            PdfWriter.getInstance(documento, new FileOutputStream(ruta + "/Desktop/" + "Reporte-Ventas-" + Login.user + ".pdf"));
+            PdfWriter.getInstance(documento, new FileOutputStream(ruta + "/Desktop/" + "Reporte-Ordenes-" + Login.user + ".pdf"));
             
             /* Acá se obtiene la imagen para darle el encabezado al formato del pdf */
             com.itextpdf.text.Image encabezado = com.itextpdf.text.Image.getInstance("src/imagenes/logo_wykep.png");
