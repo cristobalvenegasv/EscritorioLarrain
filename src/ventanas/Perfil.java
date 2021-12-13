@@ -164,6 +164,7 @@ public class Perfil extends javax.swing.JFrame {
 
     private void txt_NombreKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_NombreKeyTyped
 
+        /* Validaciones para que solo se admitan caracteres, tanto minusculas como mayusculas */
         char c = evt.getKeyChar();
         
         if((c<'a' || c>'z') && (c<'A' || c>'Z')) evt.consume();

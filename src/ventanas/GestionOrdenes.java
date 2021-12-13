@@ -6,6 +6,7 @@ package ventanas;
 
 import java.sql.*;
 import clases.Conexion;
+import java.util.Date;
 import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
@@ -23,6 +24,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.WindowConstants;
@@ -211,29 +213,41 @@ public class GestionOrdenes extends javax.swing.JFrame {
         try {
             /* Damos la ubicación a la ruta donde enviaremos el pdf */
             String ruta = System.getProperty("user.home");
-            PdfWriter.getInstance(documento, new FileOutputStream(ruta + "/Desktop/" + "Reporte-Ordenes" + Login.user + ".pdf"));
+            PdfWriter.getInstance(documento, new FileOutputStream(ruta + "/Desktop/" + "Reporte-Ordenes-" + Login.user + ".pdf"));
             
             /* Acá se obtiene la imagen para darle el encabezado al formato del pdf */
             com.itextpdf.text.Image encabezado = com.itextpdf.text.Image.getInstance("src/imagenes/logo_wykep.png");
             
+            /* Acá defino la fecha del día de hoy para referenciar el dia en que se realizó el reporte */
+            Date newDate = new Date();
+            Paragraph parrafo_fecha = new Paragraph("Fecha: " + new SimpleDateFormat("dd-MM-yyyy").format(newDate), FontFactory.getFont("Arial", 12));
+            parrafo_fecha.setAlignment(Paragraph.ALIGN_RIGHT);
+            
+            /* Acá defino el nombre de usuario de la persona que emite el reporte */
+            Paragraph parrafo_usuario = new Paragraph("Emitido por " + Login.user + "\n \n", FontFactory.getFont("Arial", 12, Font.BOLD));
+            parrafo_usuario.setAlignment(Paragraph.ALIGN_LEFT);
+              
             /* Dimensiones para el encabezado, osea, la imagen */
-            encabezado.scaleToFit(500,500);
+            encabezado.scaleToFit(400,400);
             encabezado.setAlignment(Chunk.ALIGN_CENTER);
             
-            Paragraph parrafo = new Paragraph();
+            /* Parrafo central */
+            Paragraph parrafo = new Paragraph("Ventas Realizadas \n\n", FontFactory.getFont("Arial", 20, Font.BOLD));
             parrafo.setAlignment(Paragraph.ALIGN_CENTER);
-            parrafo.add("Ventas realizadas \n \n");
-            parrafo.setFont(FontFactory.getFont("Arial", 18, Font.BOLD, BaseColor.LIGHT_GRAY));
             
             documento.open();
+            
+            /* Agrego los parrafos que se definieron anteriormente */
+            documento.add(parrafo_fecha);
+            documento.add(parrafo_usuario);
             documento.add(encabezado);
             documento.add(parrafo);
             
-            PdfPTable ordenes = new PdfPTable(6);
+            /* Añado las celdas que seran parte del encabezado de la tabla */
+            PdfPTable ordenes = new PdfPTable(5);
             ordenes.addCell("Usuario");
             ordenes.addCell("Estado");
             ordenes.addCell("Fecha de Pago");
-            ordenes.addCell("Fecha de Envío");
             ordenes.addCell("Precio Total");
             ordenes.addCell("N° Transacción");
             
@@ -241,7 +255,7 @@ public class GestionOrdenes extends javax.swing.JFrame {
             try {
                 Connection cn = Conexion.conectar();
                 PreparedStatement pst = cn.prepareStatement(
-                "select pu.USERNAME, po.STATUS, to_char(po.PAIDAT, 'dd/mm/yyyy'), to_char(po.ARRIVALDATE, 'dd/mm/yyyy'), po.TOTALPRICE, po.TRANSACTION_ID from PUNTOVENTAS_ORDERS po left join PUNTOVENTAS_USER pu on(po.USER_ID = pu.ID) where TOTALPRICE != 0 order by PAIDAT");
+                "select pu.USERNAME, po.STATUS, to_char(po.PAIDAT, 'dd/mm/yyyy'), po.TOTALPRICE, po.TRANSACTION_ID from PUNTOVENTAS_ORDERS po left join PUNTOVENTAS_USER pu on(po.USER_ID = pu.ID) where TOTALPRICE != 0 order by PAIDAT");
                 
                 ResultSet rs = pst.executeQuery();
                 
@@ -252,7 +266,6 @@ public class GestionOrdenes extends javax.swing.JFrame {
                         ordenes.addCell(rs.getString(3));
                         ordenes.addCell(rs.getString(4));
                         ordenes.addCell(rs.getString(5));
-                        ordenes.addCell(rs.getString(6));
                        
                     } while (rs.next());
                     
